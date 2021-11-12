@@ -15,6 +15,7 @@ def is_useful(msg):
     return False if msg['event'] in bad_types else True
 
 msg_count = 0
+print('Reading messages from SQS...')
 while(True):
     response = sqs.receive_message(
         QueueUrl=queue_url,
@@ -26,14 +27,22 @@ while(True):
         break
 
     msgs = map_messages(msgs)
-    msgs = filter(is_useful, msgs)
 
     for msg in msgs:
-        buffer_to_file(msg)
-        print('.', end='')
-        msg_count += 1
-        if(msg_count % 50 == 0):
-            print('')
+        if(is_useful(msg)):
+            buffer_to_file(msg)
+            print('!', end='', flush=True)
+        else:
+            print('_', end='', flush=True)
 
-    if(msg_count > 100):
+        res = sqs.delete_message(QueueUrl=queue_url, ReceiptHandle=msg['receipt_handle'])
+        print('.', end='', flush=True)
+
+        msg_count += 1
+        if(msg_count % 40 == 0):
+            print(' {}'.format(msg_count))
+
+    if(msg_count > 300):
         break
+
+print('\nProcessed {} events from SQS'.format(msg_count))
