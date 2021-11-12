@@ -15,6 +15,8 @@ def is_useful(msg):
     return False if msg['event'] in bad_types else True
 
 msg_count = 0
+to_delete = []
+new_files = set()
 print('Reading messages from SQS...')
 while(True):
     response = sqs.receive_message(
@@ -30,19 +32,29 @@ while(True):
 
     for msg in msgs:
         if(is_useful(msg)):
-            buffer_to_file(msg)
+            new_files.add(buffer_to_file(msg))
             print('!', end='', flush=True)
         else:
             print('_', end='', flush=True)
 
-        res = sqs.delete_message(QueueUrl=queue_url, ReceiptHandle=msg['receipt_handle'])
-        print('.', end='', flush=True)
+        to_delete.append(msg['receipt_handle'])
 
         msg_count += 1
-        if(msg_count % 40 == 0):
+        if(msg_count % 80 == 0):
             print(' {}'.format(msg_count))
 
-    if(msg_count > 300):
+    if(msg_count > 100):
         break
 
 print('\nProcessed {} events from SQS'.format(msg_count))
+print('Time to blend files into s3')
+print(new_files)
+
+# ...
+
+print('Deleting {} handled messages from SQS...'.format(len(to_delete)))
+for i,rcpt in enumerate(to_delete, start=1):
+    res = sqs.delete_message(QueueUrl=queue_url, ReceiptHandle=rcpt)
+    print('.', end='', flush=True)
+    if(i % 80 == 0):
+        print(' {}'.format(i))

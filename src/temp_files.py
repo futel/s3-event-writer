@@ -12,6 +12,7 @@ def buffer_to_file(msg):
     file = '{}.tmp'.format(date)
     with open(file, 'a') as f:
         f.write('{}\n'.format(json.dumps(msg)))
+    return file
 
 # gets the terse date string from a message timestamp
 def _get_date(msg):

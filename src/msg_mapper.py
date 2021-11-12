@@ -6,7 +6,7 @@ import json
 def map_message(msg):
     msg = _parse_json_body(msg)
     return _convert_msg(msg)
-    
+
 def map_messages(msgs):
     return map(map_message, msgs)
 
@@ -23,6 +23,7 @@ def _convert_msg(msg):
     # print(json.dumps(msg, indent=2))
     event = msg['Body']['Message']['event']
     eventName = event.get('UserEvent', event['Event'])
+    # TODO: Use the event timestamp not the message envelope timestamp!
     return {
         'id': msg['MessageId'],
         'receipt_handle': msg['ReceiptHandle'],
