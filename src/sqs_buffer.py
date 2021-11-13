@@ -48,10 +48,8 @@ def read_everything():
             if(msg_count % 80 == 0):
                 print(' {}'.format(msg_count))
 
-        # if(msg_count > 100): # ONLY FOR DEBUGGING!
-            # break
-        if(useful_count > 25):
-            break
+        # if(useful_count > 25): # ONLY FOR DEBUGGING TO NOT DRAIN QUEUE
+        #     break
 
     return {
         'msg_count': msg_count,
