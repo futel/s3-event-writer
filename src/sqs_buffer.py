@@ -1,12 +1,13 @@
 import os
 import boto3
+from botocore.config import Config
 from msg_mapper import map_messages
 from temp_files import buffer_to_file
 
 # pulls messages from sqs and buffers them in date-based temp files
 
 queue_url = os.environ.get('QUEUE_URL')
-sqs = boto3.client('sqs')
+sqs = boto3.client('sqs', config=Config(region_name='us-west-2'))
 
 def is_useful(msg):
     bad_types = ['Registry', 'PeerStatus']

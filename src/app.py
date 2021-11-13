@@ -1,5 +1,6 @@
 import os
 import boto3
+from botocore.config import Config
 import sqs_buffer
 import file_blender
 import s3_util
@@ -22,7 +23,7 @@ for file in state['new_files']:
 
 
 print('Deleting {} handled messages from SQS...'.format(len(state['to_delete'])))
-sqs = boto3.client('sqs')
+sqs = boto3.client('sqs', config=Config(region_name='us-west-2'))
 for i,rcpt in enumerate(state['to_delete'], start=1):
     res = sqs.delete_message(QueueUrl=queue_url, ReceiptHandle=rcpt)
     print('.', end='', flush=True)
