@@ -3,10 +3,10 @@ import boto3
 from msg_mapper import map_messages
 from temp_files import buffer_to_file
 
-# pulls messages from sqs and buffers them in date-based temp new_files
+# pulls messages from sqs and buffers them in date-based temp files
 
 queue_url = os.environ.get('QUEUE_URL')
-sqs = boto3.client('sqs');
+sqs = boto3.client('sqs')
 
 def is_useful(msg):
     bad_types = ['Registry', 'PeerStatus']
@@ -17,6 +17,7 @@ def is_useful(msg):
 # Reads all remaining SQS messages into date named temp files
 def read_everything():
     msg_count = 0
+    useful_count = 0
     to_delete = []
     new_files = set()
     print('Reading messages from SQS...')
@@ -36,6 +37,7 @@ def read_everything():
             if(is_useful(msg)):
                 new_files.add(buffer_to_file(msg))
                 print('!', end='', flush=True)
+                useful_count += 1
             else:
                 print('_', end='', flush=True)
 
@@ -45,7 +47,9 @@ def read_everything():
             if(msg_count % 80 == 0):
                 print(' {}'.format(msg_count))
 
-        if(msg_count > 100): # ONLY FOR DEBUGGING!
+        # if(msg_count > 100): # ONLY FOR DEBUGGING!
+            # break
+        if(useful_count > 25):
             break
 
     return {
