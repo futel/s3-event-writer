@@ -28,3 +28,5 @@ for i,rcpt in enumerate(state['to_delete'], start=1):
     print('.', end='', flush=True)
     if(i % 80 == 0):
         print(' {}'.format(i))
+
+print('\nAll done.')

@@ -16,7 +16,7 @@ def download_prod(date):
     date = date.replace('-', '')
     key = make_prod_key(date)
     existing_file = '{}.original'.format(date)
-    print('Downloading s3://{}{} from s3'.format(BUCKET, existing_file))
+    print('Downloading s3://{}/{} from s3'.format(BUCKET, key))
     try:
         s3.Bucket(BUCKET).download_file(key, existing_file)
     except botocore.exceptions.ClientError as e:
@@ -26,6 +26,6 @@ def download_prod(date):
 
 def upload_file(date, file):
     key = make_prod_key(date)
-    print('Uploading {} to s3://{}{}'.format(file, BUCKET, key))
+    print('Uploading {} to s3://{}/{}'.format(file, BUCKET, key))
     s3.Bucket(BUCKET).upload_file(file, key)
     print('Upload complete.')

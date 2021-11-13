@@ -3,21 +3,20 @@
 import s3_util
 
 def merge(date):
-    print('here')
-    file1 = '{}.tmp'.format(date)
+    new_data_file = '{}.tmp'.format(date)
     s3_util.download_prod(date)
-    file2 = '{}.original'.format(date)
+    existing_s3_file = '{}.original'.format(date)
     output = '{}.new'.format(date)
-    return _merge(file1, file2, output)
+    return _merge(new_data_file, existing_s3_file, output)
 
-def _merge(file1, file2, output):
-    file1_content = _read_all(file1)
-    print('file1 = {} records'.format(len(file1_content)))
-    file2_content = _read_all(file2)
-    print('file2 = {} records'.format(len(file2_content)))
+def _merge(new_data_file, existing_s3_file, output):
+    file1_content = _read_all(new_data_file)
+    print('new from sqs = {} events'.format(len(file1_content)))
+    file2_content = _read_all(existing_s3_file)
+    print(' existing s3 = {} events'.format(len(file2_content)))
     content = file1_content + file2_content
     content = list(dict.fromkeys(content))
-    print('unique: {}'.format(len(content)))
+    print('      unique = {} events'.format(len(content)))
     content.sort()
     with open(output, 'w') as f:
         for line in content:
