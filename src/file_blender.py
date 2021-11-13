@@ -1,6 +1,7 @@
-
-# merges two files
 import s3_util
+
+# This helps with merging two files -- one on disk and one in s3
+# The result is a new file named <date>.new
 
 def merge(date):
     new_data_file = '{}.tmp'.format(date)
