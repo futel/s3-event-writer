@@ -1,2 +1,4 @@
 # s3-event-writer
-Generates futel event files in s3
+
+Pulls futel raw asterisk event data from SQS and writes terse
+daily event files to s3.
