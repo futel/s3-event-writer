@@ -13,6 +13,8 @@ def is_useful(msg):
     bad_types = ['Registry', 'PeerStatus']
     if msg['hostname'] != 'futel-prod.phu73l.net':
         return False
+    if 'followme-operator' in msg['channel']:
+        return False
     return False if msg['event'] in bad_types else True
 
 # Reads all remaining SQS messages into date named temp files
