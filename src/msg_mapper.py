@@ -23,11 +23,13 @@ def _convert_msg(msg):
     # print(json.dumps(msg, indent=2))
     event = msg['Body']['Message']['event']
     eventName = event.get('UserEvent', event['Event'])
-    # TODO: Use the event timestamp not the message envelope timestamp!
+    # Use the timestamp from the message body, fall back to the sqs body
+    bodyTimestamp = msg['Body']['Timestamp']
+    timestamp = msg['Body']['Message'].get('timestamp', bodyTimestamp)
     return {
         'id': msg['MessageId'],
         'receipt_handle': msg['ReceiptHandle'],
-        'timestamp': msg['Body']['Timestamp'],
+        'timestamp': timestamp,
         'hostname': msg['Body']['Message']['hostname'],
         'channel': event.get('Channel', ''),
         'event': eventName
