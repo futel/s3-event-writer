@@ -6,6 +6,8 @@ from temp_files import buffer_to_file
 
 # pulls messages from sqs and buffers them in date-based temp files
 
+MAX_BLOCK_COUNT = 1000 # stop reading after this many messages
+
 queue_url = os.environ.get('QUEUE_URL')
 sqs = boto3.client('sqs', config=Config(region_name='us-west-2'))
 
@@ -17,14 +19,14 @@ def is_useful(msg):
         return False
     return False if msg['event'] in bad_types else True
 
-# Reads all remaining SQS messages into date named temp files
-def read_everything():
+# Reads a block of messages up to MAX_BLOCK_COUNT
+def read_block():
     msg_count = 0
     useful_count = 0
     to_delete = []
     new_files = set()
     print('Reading messages from SQS...')
-    while(True):
+    while(msg_count < MAX_BLOCK_COUNT):
         response = sqs.receive_message(
             QueueUrl=queue_url,
             MaxNumberOfMessages=10
