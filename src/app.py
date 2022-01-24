@@ -25,7 +25,6 @@ while(True):
             os.remove(f)
             print('remove {}'.format(f))
 
-
     print('Deleting {} handled messages from SQS...'.format(len(state['to_delete'])))
     sqs = boto3.client('sqs', config=Config(region_name='us-west-2'))
     for i,rcpt in enumerate(state['to_delete'], start=1):
@@ -33,5 +32,6 @@ while(True):
         print('.', end='', flush=True)
         if(i % 80 == 0):
             print(' {}'.format(i))
+    print('Chunk complete.')
 
 print('\nAll done.')
