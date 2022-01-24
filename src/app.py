@@ -32,6 +32,6 @@ while(True):
         print('.', end='', flush=True)
         if(i % 80 == 0):
             print(' {}'.format(i))
-    print('Chunk complete.')
+    print('Block complete.')
 
 print('\nAll done.')
