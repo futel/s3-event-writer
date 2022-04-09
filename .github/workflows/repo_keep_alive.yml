@@ -1,4 +1,4 @@
-name: keep the repo alive
+name: keep the repo actions alive
 on:
   schedule:
     - cron: '30 12 * * *'
