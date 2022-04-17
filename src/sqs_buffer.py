@@ -7,13 +7,14 @@ from temp_files import buffer_to_file
 # pulls messages from sqs and buffers them in date-based temp files
 
 MAX_BLOCK_COUNT = 1000 # stop reading after this many messages
+PROD_HOSTS = ['futel-prod.phu73l.net', 'futel-prod-back']
 
 queue_url = os.environ.get('QUEUE_URL')
 sqs = boto3.client('sqs', config=Config(region_name='us-west-2'))
 
 def is_useful(msg):
     bad_types = ['Registry', 'PeerStatus']
-    if msg['hostname'] != 'futel-prod.phu73l.net':
+    if msg['hostname'] not in PROD_HOSTS:
         return False
     if 'followme-operator' in msg['channel']:
         return False
