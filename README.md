@@ -1,6 +1,8 @@
 # s3-event-writer
 
 [![hourly queue dump to s3](https://github.com/futel/s3-event-writer/actions/workflows/hourly-queue-dump.yml/badge.svg)](https://github.com/futel/s3-event-writer/actions/workflows/hourly-queue-dump.yml)
+[![publish gh-pages](https://github.com/futel/usage/actions/workflows/build-and-publish-ui.yml/badge.svg)](https://github.com/futel/s3-event-writer/actions/workflows/build-and-publish-ui.yaml)
+
 
 Pulls futel raw asterisk event data from SQS and writes terse
 daily event files to s3.
