@@ -7,7 +7,10 @@ from temp_files import buffer_to_file
 # pulls messages from sqs and buffers them in date-based temp files
 
 MAX_BLOCK_COUNT = 1000 # stop reading after this many messages
-PROD_HOSTS = ['futel-prod.phu73l.net', 'futel-prod-back']
+PROD_HOSTS = [
+    'futel-prod.phu73l.net',
+    'futel-prod-back',
+    'twilio-sip-server-prod']
 
 queue_url = os.environ.get('QUEUE_URL')
 sqs = boto3.client('sqs', config=Config(region_name='us-west-2'))
