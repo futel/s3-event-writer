@@ -15,13 +15,34 @@ PROD_HOSTS = [
 queue_url = os.environ.get('QUEUE_URL')
 sqs = boto3.client('sqs', config=Config(region_name='us-west-2'))
 
+invalids = dict()
+invalids['hostname'] = dict()
+invalids['channel'] = dict()
+invalids['event'] = dict()
+
+def _track_invalid(what, content):
+    if content in invalids[what]:
+        invalids[what][content] = invalids[what][content] + 1
+    else:
+        invalids[what][content] = 1
+    return False
+
+def print_invalid():
+    if len(invalids['hostname']) + len(invalids['channel']) + len(invalids['event']) == 0:
+        print("All messages were useful. Awesome!")
+        return
+    print("Here is what was not useful/ignored:")
+    print(invalids)
+
 def is_useful(msg):
     bad_types = ['Registry', 'PeerStatus']
     if msg['hostname'] not in PROD_HOSTS:
-        return False
+        return _track_invalid('hostname', msg['hostname'])
     if 'followme-operator' in msg['channel']:
-        return False
-    return False if msg['event'] in bad_types else True
+        return _track_invalid('channel', msg['channel'])
+    if msg['event'] in bad_types:
+        return _track_invalid('event', msg['event'])
+    return True
 
 # Reads a block of messages up to MAX_BLOCK_COUNT
 def read_block():

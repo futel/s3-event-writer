@@ -34,4 +34,6 @@ while(True):
             print(' {}'.format(i))
     print('Block complete.')
 
+sqs_buffer.print_invalid()
+
 print('\nAll done.')
