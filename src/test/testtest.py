@@ -9,13 +9,23 @@ msg_do = {'ReceiptHandle': 'xxx', 'MessageId': 'xxx', 'Body': {'Timestamp': 'xxx
 
 class TestTest(TestCase):
 
-    def test_convet_msg(self):
+    def test_convert_msg(self):
         self.assertEqual(
             msg_mapper._convert_msg(msg_asterisk),
-            {'id': 'xxx', 'receipt_handle': 'xxx', 'timestamp': '2023-07-26T19:48:18+00:00', 'hostname': 'futel-prod.phu73l.net', 'channel': 'PJSIP/twilio-000012b0', 'event': 'robotron_ninth_position_play'})
+            {'id': 'xxx',
+             'receipt_handle': 'xxx',
+             'timestamp': '2023-07-26T19:48:18+00:00',
+             'hostname': 'futel-prod.phu73l.net',
+             'channel': 'PJSIP/twilio-000012b0',
+             'event': 'robotron_ninth_position_play'})
         self.assertEqual(
             msg_mapper._convert_msg(msg_do),
-            {'id': 'xxx', 'receipt_handle': 'xxx', 'timestamp': '2023-07-26T19:49:18.695810', 'hostname': 'do-functions-prod', 'channel': 'ghost-mountain', 'event': 'outgoing_dialstatus_completed_ghost-mountain'})
+            {'id': 'xxx',
+             'receipt_handle': 'xxx',
+             'timestamp': '2023-07-26T19:49:18.695810',
+             'hostname': 'do-functions-prod',
+             'channel': 'ghost-mountain',
+             'event': 'outgoing_dialstatus_completed_ghost-mountain'})
 
     def test_is_useful(self):
         self.assertTrue(
