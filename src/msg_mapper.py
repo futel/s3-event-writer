@@ -20,18 +20,21 @@ def map_final(msg):
     }
 
 def _convert_msg(msg):
-    # print(json.dumps(msg, indent=2))
     event = msg['Body']['Message']['event']
     eventName = event.get('UserEvent', event['Event'])
     # Use the timestamp from the message body, fall back to the sqs body
     bodyTimestamp = msg['Body']['Timestamp']
     timestamp = msg['Body']['Message'].get('timestamp', bodyTimestamp)
+    channel = event.get('Channel', '')
+    # Current messages should have endpoint, but older ones don't.
+    endpoint = event.get('endpoint', channel)
     return {
         'id': msg['MessageId'],
         'receipt_handle': msg['ReceiptHandle'],
         'timestamp': timestamp,
         'hostname': msg['Body']['Message']['hostname'],
-        'channel': event.get('Channel', ''),
+        'channel': channel,
+        'endpoint': endpoint,
         'event': eventName
     }
 

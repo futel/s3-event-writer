@@ -17,6 +17,7 @@ class TestTest(TestCase):
              'timestamp': '2023-07-26T19:48:18+00:00',
              'hostname': 'futel-prod.phu73l.net',
              'channel': 'PJSIP/twilio-000012b0',
+             'endpoint': 'PJSIP/twilio-000012b0',
              'event': 'robotron_ninth_position_play'})
         self.assertEqual(
             msg_mapper._convert_msg(msg_do),
@@ -25,6 +26,7 @@ class TestTest(TestCase):
              'timestamp': '2023-07-26T19:49:18.695810',
              'hostname': 'do-functions-prod',
              'channel': 'ghost-mountain',
+             'endpoint': 'ghost-mountain',
              'event': 'outgoing_dialstatus_completed_ghost-mountain'})
 
     def test_is_useful(self):
