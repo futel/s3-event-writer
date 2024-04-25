@@ -10,7 +10,7 @@ MAX_BLOCK_COUNT = 1000 # stop reading after this many messages
 PROD_HOSTS = [
     'futel-prod.phu73l.net',
     'futel-prod-back',
-    'do-functions-prod']
+    'dialplan-functions-prod']
 
 queue_url = os.environ.get('QUEUE_URL')
 sqs = boto3.client('sqs', config=Config(region_name='us-west-2'))
