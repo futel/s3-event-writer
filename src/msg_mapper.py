@@ -16,6 +16,7 @@ def map_final(msg):
     return {
         'timestamp': msg['timestamp'],
         'channel': msg['channel'],
+        'endpoint': msg['endpoint'],
         'event': msg['event']
     }
 
