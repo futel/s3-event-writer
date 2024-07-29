@@ -6,7 +6,7 @@ AWS should be set up as described in aws.md.
 
 GitHub should be set up as described in github.md.
 
-# Setup
+# Deploy
 
 Push to the origin/main branch on GitHub.
 

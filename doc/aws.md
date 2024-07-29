@@ -4,9 +4,7 @@ AWS components which must be set up before deploying.
 
 # AWS setup
 
-Have AWS configuration as described in asteriskserver README-aws:
-- SQS queue "asterisk-prod-events"
-Note the queue URL.
+Have AWS configuration as described in asteriskserver README-aws. Note the "asterisk-prod-events" SQS queue URL.
 
 Set up users, groups, policies:
 * Go to the aws console
