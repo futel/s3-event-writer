@@ -35,13 +35,19 @@ def print_invalid():
     print(invalids)
 
 def is_useful(msg):
-    bad_types = ['Registry', 'PeerStatus']
+    """
+    If msg is useful, return True, else add it to the invalids collection.
+    """
+    # Messages come from several sources and the format is largely historical
+    # cruft, so we toss what we don't understand as well as what we know we
+    # don't want.
+    bad_types = ['Registry', 'PeerStatus', None]
     if msg['hostname'] not in PROD_HOSTS:
         return _track_invalid('hostname', msg['hostname'])
-    if 'followme-operator' in msg['channel']:
-        return _track_invalid('channel', msg['channel'])
-    if msg['event'] in bad_types:
-        return _track_invalid('event', msg['event'])
+    if 'followme-operator' in msg.get('channel'):
+        return _track_invalid('channel', msg.get('channel'))
+    if msg.get('event') in bad_types:
+        return _track_invalid('event', msg.get('event'))
     return True
 
 # Reads a block of messages up to MAX_BLOCK_COUNT
