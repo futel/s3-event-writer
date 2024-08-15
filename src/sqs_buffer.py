@@ -44,7 +44,8 @@ def is_useful(msg):
     bad_types = ['Registry', 'PeerStatus', None]
     if msg['hostname'] not in PROD_HOSTS:
         return _track_invalid('hostname', msg['hostname'])
-    if 'followme-operator' in msg.get('channel'):
+    channel = msg.get('channel')
+    if (not channel) or ('followme-operator' in msg.get('channel')):
         return _track_invalid('channel', msg.get('channel'))
     if msg.get('event') in bad_types:
         return _track_invalid('event', msg.get('event'))
