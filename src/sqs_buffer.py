@@ -8,9 +8,9 @@ from temp_files import buffer_to_file
 
 MAX_BLOCK_COUNT = 1000 # stop reading after this many messages
 PROD_HOSTS = [
-    'futel-prod.phu73l.net',
-    'futel-prod-back',
-    'dialplan-functions-prod']
+    'futel-prod.phu73l.net',    # Prod asterisk.
+    'futel-prod-back',          # Previous prod asterisk during promotion.
+    'dialplan-functions-prod']  # Dialplan for twilio pv.
 
 queue_url = os.environ.get('QUEUE_URL')
 sqs = boto3.client('sqs', config=Config(region_name='us-west-2'))
