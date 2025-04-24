@@ -1,7 +1,8 @@
-name: keep the repo actions alive
+name: Keep date log
 on:
   schedule:
-    - cron: '30 12 * * *'
+    # 6:15am on the 1st of every month
+    - cron: '15 6 1 * *'
   workflow_dispatch:
 jobs:
   keepalive:
