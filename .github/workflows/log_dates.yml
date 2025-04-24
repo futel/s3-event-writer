@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: gautamkrishnar/keepalive-workflow@1.0.7
+    - name: note the time
+      run: |
+        date >> .dates
+    - uses: EndBug/add-and-commit@v9
       with:
-        time_elapsed: 29
+        add: ".dates"
