@@ -8,10 +8,10 @@ jobs:
   keepalive:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
     - name: note the time
       run: |
         date >> .dates
-    - uses: EndBug/add-and-commit@v9
+    - uses: EndBug/add-and-commit@v10
       with:
         add: ".dates"
